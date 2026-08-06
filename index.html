@@ -329,7 +329,7 @@
             return String(input).replace(/[0-9]/g, d => map[d]);
         }
 
-        // رابط استضافتك الأساسي (مهم جداً لتشغيل الكود بأي موقع خارجي)
+        // رابط استضافتك الأساسي لنسخه بالكود
         const REPO_URL = 'https://morhafali5r-hub.github.io/MORHAF-Fonts-Library/';
 
         // === قاعدة البيانات ===
@@ -350,14 +350,14 @@
             { name: 'شيهام (Shiyham)', previewText: 'قوة وحضور', variants: [{ label: 'عادي', family: 'Shiyham', url: 'MORHAF-Fonts/shiyham/shiyamVF-instance.ttf' }] }
         ];
 
-        // === بناء الكروت وإضافة الخطوط (مسارات مباشرة كاملة لتجنب أي مشاكل) ===
+        // === بناء الكروت وإضافة الخطوط (مسار نسبي ليعمل في الموقع بدون خطأ) ===
         const container = document.getElementById('fonts-container');
         let cssRules = '';
 
         fontsData.forEach((font, index) => {
             font.variants.forEach(variant => {
-                // وضع الرابط المباشر للخطوط بداخل الموقع لضمان عملها بقوة
-                cssRules += `@font-face { font-family: '${variant.family}'; src: url('${REPO_URL}${variant.url}'); font-display: swap; }\n`;
+                // رجعنا للمسار النسبي (Relative) عشان المتصفح يقرأ الخطوط فوراً من الملفات بدون ما يعملها بلوك
+                cssRules += `@font-face { font-family: '${variant.family}'; src: url('${variant.url}'); font-display: swap; }\n`;
             });
 
             let selectHTML = '';
@@ -405,18 +405,14 @@
         function changeTextColor(id, color) { document.getElementById(id).style.color = color; }
         function changeBgColor(id, color) { document.getElementById(id).style.backgroundColor = color; }
 
-        // === المعالج الأساسي للتحميل وحل مشكلة التكرار والانهيار ===
+        // === المعالج الأساسي للتحميل ===
         function exportHighRes(elementId, fileName, options) {
             options = options || {};
             const element = document.getElementById(elementId);
             if (!element) return;
 
-            // 1. إزالة التحديد عن أي مربع نص لتجنب تصوير مؤشر الكتابة المزعج (يسبب مشاكل)
-            if (document.activeElement) {
-                document.activeElement.blur();
-            }
-
-            // إخفاء تحديدات المحرر
+            // إزالة التحديد عن أي مربع نص لتجنب تصوير مؤشر الكتابة المزعج 
+            if (document.activeElement) { document.activeElement.blur(); }
             document.querySelectorAll('.text-block-wrap').forEach(w => w.classList.remove('selected'));
 
             const originalBorder = element.style.border;
@@ -429,10 +425,10 @@
                 element.style.backgroundImage = 'none';
             }
 
-            // 2. استخدام دقة Scale ذكية: تعطي صورة خارقة وما بتعلق الرام
+            // استخدام دقة Scale ذكية: تعطي صورة خارقة وما بتعلق الرام
             const exportScale = window.innerWidth <= 768 ? 2 : 3;
 
-            // نعطيه مهلة صغيرة لحتى المتصفح يرسم الـ Blur ويخفي الإطارات قبل التصوير
+            // مهلة صغيرة لحتى المتصفح يرسم التغييرات ويخفي الإطارات قبل التصوير
             setTimeout(() => {
                 html2canvas(element, { 
                     scale: exportScale, 
@@ -453,7 +449,7 @@
                         const link = document.createElement('a');
                         link.href = dataUrl;
                         link.download = fileName + '.png';
-                        document.body.appendChild(link); // مهم لبعض المتصفحات
+                        document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
                         showToast('تم التحميل بنجاح بدقة ممتازة 🎉');
@@ -464,13 +460,11 @@
                     if (options.onComplete) options.onComplete();
 
                 }).catch(err => {
-                    // استعادة التصميم في حال الفشل
                     element.style.border = originalBorder;
                     if (options.forceTransparent) {
                         element.style.backgroundColor = originalBg;
                         element.style.backgroundImage = originalBgImage;
                     }
-                    console.error("Canvas Error:", err);
                     showToast('حدث خطأ أثناء التصوير ⚠️', 'error');
                     if (options.onComplete) options.onComplete();
                 });
@@ -481,7 +475,7 @@
         function saveCardPNG(btnElement, boxId, fileName) {
             const originalHTML = btnElement.innerHTML;
             btnElement.innerHTML = 'جاري التحضير... ⏳';
-            btnElement.style.pointerEvents = 'none'; // منع الضغط المتكرر اللي بيعلق المتصفح
+            btnElement.style.pointerEvents = 'none'; // منع الضغط المتكرر
             btnElement.style.opacity = '0.7';
 
             exportHighRes(boxId, fileName, { 
@@ -494,7 +488,7 @@
             });
         }
 
-        // === دالة النسخ مع مسار ثابت وصحيح 100% ===
+        // === دالة النسخ مع الرابط المطلق (Absolute URL) للمواقع الخارجية ===
         function copyCSS(family, urlPath) {
             const fullUrl = REPO_URL + urlPath; 
             const cssCode = `@font-face {\n    font-family: '${family}';\n    src: url('${fullUrl}');\n    font-display: swap;\n}\n\n.my-custom-text {\n    font-family: '${family}', sans-serif;\n}`;
@@ -514,14 +508,14 @@
             setTimeout(() => { t.classList.remove('show'); t.classList.add('hide'); t.addEventListener('transitionend', () => t.remove(), { once: true }); }, 3000);
         }
 
-        // === الثيم (Dark/Light) ===
+        // === الثيم ===
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeKnob = document.getElementById('theme-knob');
         function setTheme(t) { document.documentElement.setAttribute('data-theme', t); try { localStorage.setItem('morhaf-theme', t); } catch (e) {} themeKnob.innerHTML = t === 'dark' ? ICONS.moon : ICONS.sun; }
         themeToggleBtn.addEventListener('click', () => { setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); });
         setTheme(document.documentElement.getAttribute('data-theme') || 'light');
 
-        // === المحرر الذكي (Smart Editor) ===
+        // === المحرر الذكي ===
         const fsFontFamily = document.getElementById('fs-font-family');
         const fsSizeInput = document.getElementById('fs-size-input');
         const fsSizeVal = document.getElementById('fs-size-val');
@@ -655,7 +649,6 @@
             });
         }
 
-        // Intersection Observer
         const io = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } }); }, { threshold: 0.15 });
         document.querySelectorAll('.reveal, .free-space .ink-divider').forEach(el => io.observe(el));
         setTimeout(() => { const hDiv = document.querySelector('.hero .ink-divider'); if(hDiv) hDiv.classList.add('in-view'); }, 300);
