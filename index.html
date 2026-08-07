@@ -14,7 +14,7 @@
     <style id="dynamic-styles"></style>
 
     <style>
-        /* إضافة خط بانوراما نسخ بشكل أساسي للعنوان */
+        /* خط بانوراما نسخ بشكل أساسي للعنوان */
         @font-face {
             font-family: 'Panorama-Naskh';
             src: url('https://cdn.jsdelivr.net/gh/morhafali5r-hub/M.F.L@main/MORHAF-Fonts/panorama-naksh/PanoramaNaskh-Scribble.ttf');
@@ -86,7 +86,6 @@
             font-weight: normal; line-height: 1.3; 
             font-family: 'Panorama-Naskh', var(--font-display); 
             
-            /* تأثير اللمعة */
             background: linear-gradient(
                 110deg, 
                 var(--text) 35%, 
@@ -97,16 +96,15 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            color: var(--text); /* احتياطي للمتصفحات القديمة */
+            color: var(--text); 
             
-            /* مدة الأنيميشن 5 ثواني */
             animation: lightSweep 5s infinite ease-in-out;
         }
 
         @keyframes lightSweep {
             0% { background-position: 100% 50%; }
             15% { background-position: 0% 50%; }
-            100% { background-position: 0% 50%; } /* توقف مؤقت لباقي الـ 5 ثواني */
+            100% { background-position: 0% 50%; } 
         }
         
         .hero p.subtitle { 
@@ -138,7 +136,7 @@
 
         /* ========== 3. شبكة الكروت (Cards) ========== */
         .fonts-grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); 
             gap: 30px; padding: 60px 20px 80px; max-width: 1300px; margin: 0 auto; 
             min-height: 50vh;
         }
@@ -172,19 +170,40 @@
         }
 
         .controls { 
-            display: flex; align-items: center; justify-content: space-between; gap: 15px; 
-            margin-bottom: 20px; flex-wrap: wrap; 
+            display: flex; flex-direction: column; gap: 12px; 
+            margin-bottom: 20px; 
         }
         
+        .control-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap;
+        }
+
         .control-group { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--text-muted); font-weight: 600; }
         
-        input[type="range"] { -webkit-appearance: none; width: 80px; height: 6px; border-radius: 99px; background: var(--border-strong); outline: none; }
+        input[type="range"] { -webkit-appearance: none; width: 100px; height: 6px; border-radius: 99px; background: var(--border-strong); outline: none; }
         input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border-strong); }
 
-        input[type="color"] { border: 1px solid var(--border-strong); width: 30px; height: 30px; border-radius: 8px; cursor: pointer; padding: 0; background: none; transition: transform .2s ease; }
-        input[type="color"]:hover { transform: scale(1.1); }
-        input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
-        input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+        /* تصميم جديد لاختيار الألوان مع كتابة الكود */
+        .color-picker-wrap {
+            display: flex; align-items: center; 
+            border: 1px solid var(--border-strong); border-radius: 8px; 
+            background: var(--surface-2); padding: 2px 6px 2px 2px;
+            transition: border-color 0.2s ease;
+        }
+        .color-picker-wrap:focus-within { border-color: var(--accent); }
+        
+        .color-picker-wrap input[type="color"] { 
+            border: none; width: 24px; height: 24px; border-radius: 6px; 
+            cursor: pointer; padding: 0; background: none; 
+        }
+        .color-picker-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding: 1px; }
+        .color-picker-wrap input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+        
+        .hex-input {
+            width: 55px; border: none; outline: none; background: transparent;
+            font-family: monospace; font-size: 0.75rem; color: var(--text-muted);
+            text-align: center; font-weight: 600;
+        }
 
         .preview-area { 
             padding: 40px 20px; border-radius: var(--radius-md); 
@@ -244,6 +263,7 @@
             .hero { padding: 70px 16px 40px; }
             .fonts-grid { grid-template-columns: 1fr; padding: 40px 16px; }
             .buttons-grid { grid-template-columns: 1fr; }
+            .control-row { justify-content: flex-start; }
         }
     </style>
 </head>
@@ -290,7 +310,7 @@
             { name: 'عمر بن الخطاب', previewText: 'العدل أساس الملك', variants: [{ label: 'النسخة الأولى', family: 'Omar-VF', url: 'MORHAF-Fonts/omar-bin-elkhattab/omarbnelkhtabVF.ttf' }, { label: 'النسخة الثانية', family: 'Omar-2VF', url: 'MORHAF-Fonts/omar-bin-elkhattab/omarbnelkhtab2VF.ttf' }] },
             { name: 'ثمانية (Thmanyah)', previewText: 'ثمــــانية', variants: [{ label: 'العادي', family: 'Thmanyah-Regular', url: 'MORHAF-Fonts/thmanyah-family/thmanyahserifdisplay-Regular.otf' }, { label: 'الخفيف', family: 'Thmanyah-Light', url: 'MORHAF-Fonts/thmanyah-family/thmanyahserifdisplay-Light.otf' }, { label: 'المتوسط', family: 'Thmanyah-Medium', url: 'MORHAF-Fonts/thmanyah-family/thmanyahserifdisplay-Medium.otf' }, { label: 'العريض', family: 'Thmanyah-Bold', url: 'MORHAF-Fonts/thmanyah-family/thmanyahserifdisplay-Bold.otf' }, { label: 'الأسود', family: 'Thmanyah-Black', url: 'MORHAF-Fonts/thmanyah-family/thmanyahserifdisplay-Black.otf' }] },
             { name: 'ستيم (Steam)', previewText: 'ستيم', variants: [{ label: 'متغير', family: 'Steam-Variable', url: 'MORHAF-Fonts/steam-family/Steam-Variable.ttf' }, { label: 'مائل يمين', family: 'Steam-OpliqueR', url: 'MORHAF-Fonts/steam-family/SteamVF-OpliqueRight.ttf' }, { label: 'مائل يسار', family: 'Steam-OpliqueL', url: 'MORHAF-Fonts/steam-family/SteamVF-OpliqueLeft.ttf' }, { label: 'نمط 1', family: 'Steam-Style1-Alef', url: 'MORHAF-Fonts/steam-family/SteamVF-Mob Style1 AlefLam1.ttf' }, { label: 'نمط 2', family: 'Steam-Style2-Alef', url: 'MORHAF-Fonts/steam-family/SteamVF-Mob Style2 AlefLam1.ttf' }] },
-            { name: 'دنقل (Dongol)', previewText: 'بساطة وأناقة', variants: [{ label: 'صلب', family: 'Dongol-Solid', url: 'MORHAF-Fonts/dongol-fami;y/Dongol-Solid.ttf' }, { label: 'كلاسيكي', family: 'Dongol-Vintage', url: 'MORHAF-Fonts/dongol-fami;y/Dongol-Vintage.ttf' }, { label: 'مخربش', family: 'Dongol-Scribble', url: 'MORHAF-Fonts/dongol-fami;y/Dongol-Scribble.ttf' }] },
+            { name: 'دنقل (Dongol)', previewText: 'بساطة وأناقة', variants: [{ label: 'صلب', family: 'Dongol-Solid', url: 'MORHAF-Fonts/dongol-fami;y/Dongol-Solid.ttf' }, { label: 'مخربش', family: 'Dongol-Scribble', url: 'MORHAF-Fonts/dongol-fami;y/Dongol-Scribble.ttf' }] },
             { name: 'كاسوا (Kaswa)', previewText: 'بساطة التصميم الحديث', variants: [{ label: 'حديث', family: 'Kaswa-Modern', url: 'MORHAF-Fonts/kaswa/Kaswa-Modern.ttf' }, { label: 'ديكو', family: 'Kaswa-Deco', url: 'MORHAF-Fonts/kaswa/Kaswa-Modern Deco.ttf' }, { label: 'قاسم', family: 'Kasem-VF', url: 'MORHAF-Fonts/kaswa/Kasem-VF.ttf' }] },
             { name: 'ميلان (Milan)', previewText: 'عناوين بارزة', variants: [{ label: 'أسود', family: 'Milan-Black', url: 'MORHAF-Fonts/milan-display/Milan Display Black.otf' }, { label: 'أسود مزخرف', family: 'Milan-Swashes', url: 'MORHAF-Fonts/milan-display/Milan Display Black Swashes.otf' }] },
             { name: 'سياف (Sayaf)', previewText: 'حد السيف', variants: [{ label: 'سياف', family: 'Sayaf-Heavy', url: 'MORHAF-Fonts/sayaf/AVT-ar-Sayaf-HeavyHatch.ttf' }, { label: 'سياف (Mob)', family: 'Sayaf-Mob', url: 'MORHAF-Fonts/sayaf/AVT-ar Sayaf HeavyHatch-mob.ttf' }] },
@@ -333,13 +353,27 @@
                 </div>
 
                 <div class="controls">
-                    <div class="control-group">
-                        <label>الحجم</label>
-                        <input type="range" min="20" max="100" value="40" oninput="changeFontSize('preview-${index}', this.value)">
+                    <div class="control-row">
+                        <div class="control-group">
+                            <label>الحجم</label>
+                            <input type="range" min="20" max="100" value="40" oninput="changeFontSize('preview-${index}', this.value)">
+                        </div>
                     </div>
-                    <div class="control-group">
-                        <label>النص</label><input type="color" oninput="changeTextColor('preview-${index}', this.value)" value="#1C1A17">
-                        <label>الخلفية</label><input type="color" oninput="changeBgColor('box-${index}', this.value)" value="#FBF9F4">
+                    <div class="control-row">
+                        <div class="control-group">
+                            <label>النص</label>
+                            <div class="color-picker-wrap">
+                                <input type="color" id="color-picker-${index}" oninput="updateColorFromPicker(${index}, this.value, false)" value="#1C1A17">
+                                <input type="text" id="color-hex-${index}" class="hex-input" value="#1C1A17" oninput="updateColorFromHex(${index}, this.value, false)">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label>الخلفية</label>
+                            <div class="color-picker-wrap">
+                                <input type="color" id="bg-picker-${index}" oninput="updateColorFromPicker(${index}, this.value, true)" value="#FBF9F4">
+                                <input type="text" id="bg-hex-${index}" class="hex-input" value="#FBF9F4" oninput="updateColorFromHex(${index}, this.value, true)">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -367,8 +401,38 @@
             document.getElementById(`copy-${cIndex}`).setAttribute('onclick', `copyCSS('${variant.family}', '${variant.url}')`);
         }
 
-        function changeTextColor(id, color) { document.getElementById(id).style.color = color; }
-        function changeBgColor(id, color) { document.getElementById(id).style.backgroundColor = color; }
+        // التزامن بين منتقي اللون ومربع الكتابة (للنص والخلفية)
+        function updateColorFromPicker(index, hexValue, isBg) {
+            const upperHex = hexValue.toUpperCase();
+            if (isBg) {
+                document.getElementById(`bg-hex-${index}`).value = upperHex;
+                document.getElementById(`box-${index}`).style.backgroundColor = upperHex;
+            } else {
+                document.getElementById(`color-hex-${index}`).value = upperHex;
+                document.getElementById(`preview-${index}`).style.color = upperHex;
+            }
+        }
+
+        // التزامن من مربع الكتابة إلى منتقي اللون
+        function updateColorFromHex(index, hexValue, isBg) {
+            let validHex = hexValue.trim();
+            // إضافة الهاشتاق تلقائياً إذا ما كان موجود
+            if (validHex.length > 0 && !validHex.startsWith('#')) {
+                validHex = '#' + validHex;
+            }
+            
+            // التحقق إذا كان الكود السداسي صالح (3 أو 6 أحرف)
+            if (/^#([0-9A-F]{3}){1,2}$/i.test(validHex)) {
+                if (isBg) {
+                    document.getElementById(`bg-picker-${index}`).value = validHex;
+                    document.getElementById(`box-${index}`).style.backgroundColor = validHex;
+                } else {
+                    document.getElementById(`color-picker-${index}`).value = validHex;
+                    document.getElementById(`preview-${index}`).style.color = validHex;
+                }
+            }
+        }
+
         function changeFontSize(id, size) { document.getElementById(id).style.fontSize = size + 'px'; }
 
         function copyCSS(family, urlPath) {
@@ -380,24 +444,18 @@
             }).catch(() => { showToast('خطأ بالنسخ ⚠️'); });
         }
 
-        // دالة تصوير المخطوطة مع استخراج النص الديناميكي للتسمية
+        // دالة تصوير المخطوطة (تم رفع الدقة إلى أبعاد خرافية 4K)
         function saveCardPNG(btnElement, boxId, fontName, isTransparent, index) {
-            // جلب النص المكتوب حالياً في مربع المعاينة
             const previewEl = document.getElementById('preview-' + index);
             let textSnippet = previewEl ? previewEl.innerText.trim() : fontName;
             
-            // إذا كان المربع فارغ، بنرجع لاسم الخط كاحتياطي
             if (!textSnippet) textSnippet = fontName;
-            
-            // تنظيف النص (حذف المسافات الزائدة) وأخذ أول جزء منه بس عشان ما يكون اسم الملف طويل جداً
             textSnippet = textSnippet.replace(/\s+/g, ' ').substring(0, 30);
             
-            // تجهيز الاسم الافتراضي
             const defaultFileName = `${textSnippet}-MFL`;
             
-            // طلب التسمية من المستخدم
             const customName = prompt("أدخل اسم المخطوطة (أو اضغط موافق للاسم الافتراضي):", defaultFileName);
-            if (customName === null) return; // المستخدم ضغط إلغاء
+            if (customName === null) return; 
             
             const finalName = customName.trim() === "" ? defaultFileName : customName.trim();
 
@@ -408,14 +466,12 @@
             btnElement.innerHTML = 'جاري... ⏳';
             btnElement.style.pointerEvents = 'none';
 
-            // إزالة التحديد عن النص لضمان عدم تصوير المؤشر
             if (window.getSelection) window.getSelection().removeAllRanges();
             if (document.activeElement) document.activeElement.blur();
 
             const originalBg = element.style.backgroundColor;
             const originalBorder = element.style.border;
             
-            // إخفاء الإطار والنمط المربع
             element.style.border = 'none';
             element.classList.add('hide-pattern');
             
@@ -431,8 +487,9 @@
             }
 
             setTimeout(() => {
+                // رفع الدقة إلى مقياس 12 للحصول على صورة بمتوسط عرض 4000px (4K Resolution)
                 html2canvas(element, { 
-                    scale: 3, 
+                    scale: 12, 
                     useCORS: true,
                     backgroundColor: exportBgColor,
                     logging: false
@@ -440,17 +497,15 @@
                     const dataUrl = canvas.toDataURL('image/png', 1.0);
                     const link = document.createElement('a');
                     link.href = dataUrl;
-                    // استخدام الاسم اللي تم تحديده فوق
                     link.download = finalName + (isTransparent ? '-شفاف.png' : '-ملون.png');
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                     
-                    showToast('تم تحميل المخطوطة بنجاح 🎉');
+                    showToast('تم تحميل المخطوطة بدقة 4K بنجاح 🎉');
                 }).catch(err => {
                     showToast('حدث خطأ أثناء التصوير ⚠️');
                 }).finally(() => {
-                    // استعادة العناصر لشكلها الطبيعي
                     element.style.backgroundColor = originalBg;
                     element.style.border = originalBorder;
                     element.classList.remove('hide-pattern');
