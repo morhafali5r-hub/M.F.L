@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>مكتبة الخطوط المميزة | MORHAF Fonts</title>
     
-    <!-- خطوط جوجل المستخدمة في التصميم القديم -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- مكتبة تصوير الشاشة -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <!-- الأنماط الديناميكية للخطوط -->
     <style id="dynamic-styles"></style>
 
     <style>
+        /* إضافة خط بانوراما نسخ بشكل أساسي للعنوان */
+        @font-face {
+            font-family: 'Panorama-Naskh';
+            src: url('https://cdn.jsdelivr.net/gh/morhafali5r-hub/M.F.L@main/MORHAF-Fonts/panorama-naksh/PanoramaNaskh-Scribble.ttf');
+            font-display: swap;
+        }
+
         /* ========== 1. الأساسيات والتصميم القديم (النهاري دائماً) ========== */
         *, *::before, *::after { box-sizing: border-box; }
 
         :root {
-            /* ألوان التصميم القديم الفخمة */
             --bg: #FAF8F3;
             --bg-soft: #F2EDE0;
             --surface: #FFFFFF;
@@ -77,10 +80,33 @@
         
         .eyebrow { font-size: .9rem; letter-spacing: .05em; color: var(--accent); font-weight: 700; margin-bottom: 16px; display: block; }
         
+        /* تصميم العنوان مع تأثير اللمعة (Light Sweep) */
         .hero h1 { 
-            font-size: clamp(2.2rem, 6vw, 4.2rem); margin: 0 0 16px; 
-            color: var(--text); font-weight: 700; line-height: 1.3; 
-            font-family: var(--font-display); 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); margin: 0 0 16px; 
+            font-weight: normal; line-height: 1.3; 
+            font-family: 'Panorama-Naskh', var(--font-display); 
+            
+            /* تأثير اللمعة */
+            background: linear-gradient(
+                110deg, 
+                var(--text) 35%, 
+                #C69B53 50%, 
+                var(--text) 65%
+            );
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: var(--text); /* احتياطي للمتصفحات القديمة */
+            
+            /* مدة الأنيميشن 5 ثواني */
+            animation: lightSweep 5s infinite ease-in-out;
+        }
+
+        @keyframes lightSweep {
+            0% { background-position: 100% 50%; }
+            15% { background-position: 0% 50%; }
+            100% { background-position: 0% 50%; } /* توقف مؤقت لباقي الـ 5 ثواني */
         }
         
         .hero p.subtitle { 
@@ -145,7 +171,6 @@
             background-repeat: no-repeat; background-position: left 10px center; 
         }
 
-        /* أدوات التحكم (شريط الحجم والألوان) */
         .controls { 
             display: flex; align-items: center; justify-content: space-between; gap: 15px; 
             margin-bottom: 20px; flex-wrap: wrap; 
@@ -161,7 +186,6 @@
         input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
         input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
 
-        /* منطقة المعاينة */
         .preview-area { 
             padding: 40px 20px; border-radius: var(--radius-md); 
             background-color: var(--surface-2); color: var(--text); 
@@ -171,7 +195,6 @@
             position: relative; overflow: hidden;
         }
 
-        /* النمط المربع للخلفية */
         .preview-area::before {
             content: ''; position: absolute; inset: 0; z-index: 0;
             background-image: radial-gradient(var(--border-strong) 1px, transparent 1px);
@@ -183,7 +206,6 @@
             width: 100%; color: inherit; z-index: 1; position: relative;
         }
 
-        /* الأزرار (تصميم شبكي يتسع لـ 4 أزرار) */
         .buttons-grid { 
             display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; 
         }
@@ -196,19 +218,15 @@
         }
         .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-        /* زر تحميل صورة شفافة */
         .btn-transparent-img { background: transparent; color: var(--accent); border-color: var(--accent); }
         .btn-transparent-img:hover { background: var(--accent-soft); transform: translateY(-2px); }
 
-        /* زر تحميل صورة بخلفية ملونة */
         .btn-solid-img { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); }
         .btn-solid-img:hover { background: var(--bg-soft); border-color: var(--text-muted); transform: translateY(-2px); }
 
-        /* زر تحميل الخط */
         .btn-download { background: var(--surface-2); color: var(--text); border-color: var(--border-strong); }
         .btn-download:hover { background: var(--bg-soft); transform: translateY(-2px); border-color: var(--text-muted); }
 
-        /* زر نسخ الكود */
         .btn-copy { background: var(--accent); color: #fff; }
         .btn-copy:hover { background: var(--accent-strong); transform: translateY(-2px); box-shadow: 0 4px 12px var(--accent-glow); }
 
@@ -330,8 +348,8 @@
                 </div>
 
                 <div class="buttons-grid">
-                    <button type="button" onclick="saveCardPNG(this, 'box-${index}', '${font.name}', true)" class="btn btn-transparent-img">${ICONS.imageTrans}صورة شفافة</button>
-                    <button type="button" onclick="saveCardPNG(this, 'box-${index}', '${font.name}', false)" class="btn btn-solid-img">${ICONS.imageBg}صورة بخلفية</button>
+                    <button type="button" onclick="saveCardPNG(this, 'box-${index}', '${font.name}', true, ${index})" class="btn btn-transparent-img">${ICONS.imageTrans}صورة شفافة</button>
+                    <button type="button" onclick="saveCardPNG(this, 'box-${index}', '${font.name}', false, ${index})" class="btn btn-solid-img">${ICONS.imageBg}صورة بخلفية</button>
                     <a id="download-${index}" href="${defaultFullUrl}" download class="btn btn-download">${ICONS.download}تحميل الخط</a>
                     <button type="button" id="copy-${index}" onclick="copyCSS('${defaultVar.family}', '${defaultVar.url}')" class="btn btn-copy">${ICONS.code}نسخ الـ CSS</button>
                 </div>
@@ -362,8 +380,27 @@
             }).catch(() => { showToast('خطأ بالنسخ ⚠️'); });
         }
 
-        // دالة تصوير المخطوطة (تدعم الوضع الشفاف والوضع الملون)
-        function saveCardPNG(btnElement, boxId, fileName, isTransparent) {
+        // دالة تصوير المخطوطة مع استخراج النص الديناميكي للتسمية
+        function saveCardPNG(btnElement, boxId, fontName, isTransparent, index) {
+            // جلب النص المكتوب حالياً في مربع المعاينة
+            const previewEl = document.getElementById('preview-' + index);
+            let textSnippet = previewEl ? previewEl.innerText.trim() : fontName;
+            
+            // إذا كان المربع فارغ، بنرجع لاسم الخط كاحتياطي
+            if (!textSnippet) textSnippet = fontName;
+            
+            // تنظيف النص (حذف المسافات الزائدة) وأخذ أول جزء منه بس عشان ما يكون اسم الملف طويل جداً
+            textSnippet = textSnippet.replace(/\s+/g, ' ').substring(0, 30);
+            
+            // تجهيز الاسم الافتراضي
+            const defaultFileName = `${textSnippet}-MFL`;
+            
+            // طلب التسمية من المستخدم
+            const customName = prompt("أدخل اسم المخطوطة (أو اضغط موافق للاسم الافتراضي):", defaultFileName);
+            if (customName === null) return; // المستخدم ضغط إلغاء
+            
+            const finalName = customName.trim() === "" ? defaultFileName : customName.trim();
+
             const element = document.getElementById(boxId);
             if (!element) return;
 
@@ -371,6 +408,8 @@
             btnElement.innerHTML = 'جاري... ⏳';
             btnElement.style.pointerEvents = 'none';
 
+            // إزالة التحديد عن النص لضمان عدم تصوير المؤشر
+            if (window.getSelection) window.getSelection().removeAllRanges();
             if (document.activeElement) document.activeElement.blur();
 
             const originalBg = element.style.backgroundColor;
@@ -384,11 +423,10 @@
             styleTag.innerHTML = `#${boxId}.hide-pattern::before { display: none !important; }`;
             document.head.appendChild(styleTag);
 
-            let exportBgColor = null; // الافتراضي لـ html2canvas هو شفاف
+            let exportBgColor = null; 
             if (isTransparent) {
                 element.style.backgroundColor = 'transparent';
             } else {
-                // إذا لم يكن شفافاً، خذ لون الخلفية اللي اختاره المستخدم (أو اللون الافتراضي)
                 exportBgColor = originalBg || '#FBF9F4';
             }
 
@@ -399,23 +437,26 @@
                     backgroundColor: exportBgColor,
                     logging: false
                 }).then(canvas => {
-                    // استعادة التصميم الأصلي
-                    element.style.backgroundColor = originalBg;
-                    element.style.border = originalBorder;
-                    element.classList.remove('hide-pattern');
-                    styleTag.remove();
-                    
                     const dataUrl = canvas.toDataURL('image/png', 1.0);
                     const link = document.createElement('a');
                     link.href = dataUrl;
-                    link.download = fileName + (isTransparent ? '-شفاف.png' : '-ملون.png');
+                    // استخدام الاسم اللي تم تحديده فوق
+                    link.download = finalName + (isTransparent ? '-شفاف.png' : '-ملون.png');
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                     
+                    showToast('تم تحميل المخطوطة بنجاح 🎉');
+                }).catch(err => {
+                    showToast('حدث خطأ أثناء التصوير ⚠️');
+                }).finally(() => {
+                    // استعادة العناصر لشكلها الطبيعي
+                    element.style.backgroundColor = originalBg;
+                    element.style.border = originalBorder;
+                    element.classList.remove('hide-pattern');
+                    styleTag.remove();
                     btnElement.innerHTML = originalHTML;
                     btnElement.style.pointerEvents = 'auto';
-                    showToast('تم تحميل المخطوطة بنجاح 🎉');
                 });
             }, 150);
         }
